@@ -83,4 +83,4 @@ To add credits, you simply need to have KPR-WETH LP tokens, you then call ```add
 
 ## Github
 
-[Keep3rV](https://github.com/albertlark/keep3rv.network)
+[Keep3rV](https://github.com/albertlark/keep3rv)
