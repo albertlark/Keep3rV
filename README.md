@@ -1,14 +1,14 @@
 # Introduction to Keep3rV Network
 
 {% hint style="info" %}
-These docs are in active development by the Keep3r community.
+These docs are in active development by the Keep3rV community.
 {% endhint %}
 
-Keep3r Network is a decentralized keeper network for projects that need external devops and for external teams to find keeper jobs
+Keep3rV Network is a decentralized keeper network for projects that need external devops and for external teams to find keeper jobs
 
 ## Keepers
 
-A Keeper is the term used to refer to an external person and/or team that executes a job. This can be as simplistic as calling a transaction, or as complex as requiring extensive off-chain logic. The scope of Keep3r network is not to manage these jobs themselves, but to allow contracts to register as jobs for keepers, and keepers to register themselves as available to perform jobs. It is up to the individual keeper to set up their devops and infrastructure and create their own rules based on what transactions they deem profitable.
+A Keeper is the term used to refer to an external person and/or team that executes a job. This can be as simplistic as calling a transaction, or as complex as requiring extensive off-chain logic. The scope of Keep3rV network is not to manage these jobs themselves, but to allow contracts to register as jobs for keepers, and keepers to register themselves as available to perform jobs. It is up to the individual keeper to set up their devops and infrastructure and create their own rules based on what transactions they deem profitable.
 
 ## Jobs
 
@@ -16,11 +16,11 @@ A Job is the term used to refer to a smart contract that wishes an external enti
 
 ### Becoming a Keeper
 
-To join as a Keeper you call ```bond(uint)``` on the Keep3r contract. You do not need to have KPR tokens to join as a Keeper, so you can join with ```bond(0)```. There is a 3 day bonding delay before you can activate as a Keeper. Once the 3 days have passed, you can call ```activate()```. Once activated you ```lastJob``` timestamp will be set to the current block timestamp.
+To join as a Keeper you call ```bond(uint)``` on the Keep3rV contract. You do not need to have KPR tokens to join as a Keeper, so you can join with ```bond(0)```. There is a 3 day bonding delay before you can activate as a Keeper. Once the 3 days have passed, you can call ```activate()```. Once activated you ```lastJob``` timestamp will be set to the current block timestamp.
 
 ### Registering a Job
 
-A job can be any system that requires external execution, the scope of Keep3r is not to define or restrict the action taken, but to create an incentive mechanism for all parties involved. There are two cores ways to create a Job;
+A job can be any system that requires external execution, the scope of Keep3rV is not to define or restrict the action taken, but to create an incentive mechanism for all parties involved. There are two cores ways to create a Job;
 
 #### Registering a Job via Governance
 
@@ -28,7 +28,7 @@ If you prefer, you can register as a job by simply submitting a proposal via Gov
 
 #### Registering a Job via Contract Interface
 
-You can register as a job by calling ```addLiquidityToJob(address,uint)``` on the Keep3r contract. You must not have any current active jobs associated with this account. Calling ```addLiquidityToJob(address,uint)``` will create a pending Governance vote for the job specified by address in the function arguments. You are limited to submit a new job request via this address every ```14 days```.
+You can register as a job by calling ```addLiquidityToJob(address,uint)``` on the Keep3rV contract. You must not have any current active jobs associated with this account. Calling ```addLiquidityToJob(address,uint)``` will create a pending Governance vote for the job specified by address in the function arguments. You are limited to submit a new job request via this address every ```14 days```.
 
 ## Job Interface
 
@@ -36,37 +36,37 @@ Some contracts require external event execution, an example for this is the ```h
 
 These interfaces can be broken down into two types, no risk delta (something like ```update(address,address)``` in uniquote, which needs to be executed, but not risk to execution), and ```harvest()``` in yearn, which can be exploited by malicious actors by front-running deposits.
 
-For no, or low risk executions, you can simply call ```Keep3r.isKeeper(msg.sender)``` which will let you know if the given actor is a keeper in the network.
+For no, or low risk executions, you can simply call ```Keep3rV.isKeeper(msg.sender)``` which will let you know if the given actor is a keeper in the network.
 
 For high, sensitive, or critical risk executions, you can specify a minimum bond, minimum jobs completed, and minimum Keeper age required to execute this function. Based on these 3 limits you can define your own trust ratio on these keepers.
 
 So a function definition would look as follows;
 ```
 function execute() external {
-  require(Keep3r.isKeeper(msg.sender), "Keep3r not allowed");
+  require(Keep3rV.isKeeper(msg.sender), "Keep3rV not allowed");
 }
 ```
 
 At the end of the call, you simply need to call ```workReceipt(address,uint)``` to finalize the execution for the keeper network. In the call you specify the keeper being rewarded, and the amount of KPR you would like to award them with. This is variable based on what you deem is a fair reward for the work executed.
 
-Example Keep3rJob
+Example Keep3rVJob
 
 ```
-interface UniOracleFactory {
+interface PancakeOracleFactory {
     function update(address tokenA, address tokenB) external;
 }
 
-interface Keep3r {
+interface Keep3rV {
     function isKeeper(address) external view returns (bool);
     function workReceipt(address keeper, uint amount) external;
 }
 
-contract Keep3rJob {
-    UniOracleFactory constant JOB = UniOracleFactory(0x61da8b0808CEA5281A912Cd85421A6D12261D136);
-    Keep3r constant KPR = Keep3r(0x1cEB5cB57C4D4E2b2433641b95Dd330A33185A44);
+contract Keep3rVJob {
+    PancakeOracleFactory constant JOB = PancakeOracleFactory(0x0000000000000000000000000000000);
+    Keep3rV constant KPR = Keep3rV(0x00000000000000000000000000000000000000);
 
     function update(address tokenA, address tokenB) external {
-        require(KPR.isKeeper(msg.sender), "Keep3rJob::update: not a valid keeper");
+        require(KPR.isKeeper(msg.sender), "Keep3rVJob::update: not a valid keeper");
         JOB.update(tokenA, tokenB);
         KPR.workReceipt(msg.sender, 1e18);
     }
@@ -83,4 +83,4 @@ To add credits, you simply need to have KPR-WETH LP tokens, you then call ```add
 
 ## Github
 
-[Keep3r](https://github.com/keep3r-network/keep3r.network)
+[Keep3rV](https://github.com/albertlark/keep3rv.network)
