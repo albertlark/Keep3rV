@@ -1,8 +1,8 @@
 # Introduction to Keep3rV Network
 
-{% hint style="info" %}
+
 These docs are in active development by the Keep3rV community.
-{% endhint %}
+
 
 Keep3rV Network is a decentralized keeper network for projects that need external devops and for external teams to find keeper jobs
 
@@ -75,11 +75,11 @@ contract Keep3rVJob {
 
 ### Job Credits
 
-As mentioned in Job Interface, a job has a set amount of ```credits``` that they can award keepers with. To receive ```credits``` you do not need to purchase KPR tokens, instead you need to provide KPR-WETH liquidity in Uniswap. This will give you an amount of credits equal to the amount of KPR tokens in the liquidity you provide.
+As mentioned in Job Interface, a job has a set amount of ```credits``` that they can award keepers with. To receive ```credits``` you do not need to purchase KPR tokens, instead you need to provide KPR-WBNB liquidity in Pancakeswap. This will give you an amount of credits equal to the amount of KPR tokens in the liquidity you provide.
 
 You can remove your liquidity at any time, so you do not have to keep buying new credits. Your liquidity provided is never reduced and as such you can remove it whenever you no longer would like a job to be executed.
 
-To add credits, you simply need to have KPR-WETH LP tokens, you then call ```addLiquidityToJob(address,uint)``` specifying the job in the address and the amount in the uint. This will then transfer your LP tokens to the contract and keep them in escrow. You can remove your liquidity at any time by calling ```unbondLiquidityFromJob()```, this will allow you to remove the liquidity after 14 days by calling ```removeLiquidityFromJob()```
+To add credits, you simply need to have KPR-WBNB LP tokens, you then call ```addLiquidityToJob(address,uint)``` specifying the job in the address and the amount in the uint. This will then transfer your LP tokens to the contract and keep them in escrow. You can remove your liquidity at any time by calling ```unbondLiquidityFromJob()```, this will allow you to remove the liquidity after 14 days by calling ```removeLiquidityFromJob()```
 
 ## Github
 
